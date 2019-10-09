@@ -3,6 +3,7 @@ from MainFunctionality import save_video_list_by_playlist, save_video_list_by_ch
     get_video_list_by_playlist
 from DataModel import Playlist, Channel
 from celery_tasks import make_celery
+from datetime import datetime, timedelta
 
 app = Flask(__name__)
 app.config['CELERY_BROKER_URL'] = 'amqp://localhost//'
@@ -16,6 +17,8 @@ def insert_playlist_async(url):
         save_video_list_by_playlist(playlist)
     except:
         return "500"
+    try: insert_playlist_async.apply_async((url,), kwargs,expires=datetime.now() + timedelta(days=1)
+    except: print "issue occured with the scheduled task with playlistURL :-",url
     return "200"
 
 
@@ -26,6 +29,9 @@ def insert_channel_async(url):
         save_video_list_by_channel(channel)
     except:
         return "500"
+# Scheduling the task to process again after 1 day
+    try: insert_channel_async.apply_async((url,), kwargs,expires=datetime.now() + timedelta(days=1)
+    except: print "issue occured with the scheduled task with channelurl :-",url
     return "200"
 
 
