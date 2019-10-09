@@ -17,12 +17,19 @@ Flask application which recieves requests to download video details for youtube 
 
 # installation and requirments
 -python 2.7
+
 -pytube 9.52
+
 -flask
+
 -bs4
+
 -beautifulsoup
+
 -urllib2
+
 -celery installation and running celery worker
+
 -rabbitMq server installation and running
 
 
